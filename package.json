@@ -1,0 +1,41 @@
+{
+  "name": "gikautos",
+  "version": "1.0.0",
+  "description": "Creating an ecommerce application using mern stack for gikautos",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
+    "debug": "ndb backend/server.js",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "data:import": "node backend/seeder.js",
+    "data:destroy": "node backend/seeder.js -d"
+  },
+  "author": "Agbaga Benjamin Kekeli, Joseph Mensah, Kporku Prince",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.8",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "colors": "^1.4.0",
+    "cookie-parser": "^1.4.6",
+    "crypto": "^1.0.1",
+    "express": "^4.19.2",
+    "getstream": "^8.4.1",
+    "https": "^1.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
+    "mongodb": "^6.5.0",
+    "mongoose": "^8.3.1",
+    "multer": "^1.4.5-lts.1",
+    "request": "^2.88.2",
+    "twilio": "^5.0.4"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "dotenv": "^16.4.5",
+    "markdown-toc": "^1.2.0"
+  }
+}
