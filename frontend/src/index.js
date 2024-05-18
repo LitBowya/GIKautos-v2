@@ -32,6 +32,7 @@ import ProductListPage from "./pages/Admin/ProductListPage.jsx";
 import ProductEditPage from "./pages/Admin/ProductEditPage.jsx";
 import UserListPage from "./pages/Admin/UserListPage.jsx";
 import UserEditPage from "./pages/Admin/UserEditPage.jsx";
+import ChatPage from "./pages/Chatpage.jsx"
 import ProductByCategoryPage from "./pages/ProductByCategoryPage.jsx";
 import ShopPage from "./pages/ShopPage.jsx";
 import SearchBox from "./components/Search/SearchBox.jsx";
@@ -58,6 +59,7 @@ const router = createBrowserRouter(
         <Route path="/placeorder" element={<PlaceOrderPage />} />
         <Route path="/order/:id" element={<OrderPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/chatpage" element={<ChatPage />} />
       </Route>
 
       <Route path="" element={<AdminRoute />}>

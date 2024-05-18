@@ -12,7 +12,6 @@ const Header = () => {
 
   const { userInfo } = useSelector((state) => state.auth);
 
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -37,33 +36,43 @@ const Header = () => {
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
+            <Nav className="ms-auto d-flex align-items-center">
               <LinkContainer to="/search">
                 <Nav.Link>
                   <FaSearch /> Search
                 </Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/cart">
-                <Nav.Link>
-                  <FaShoppingCart />
-                  Cart
-                </Nav.Link>
-              </LinkContainer>
+
               <LinkContainer to="/shop">
-                <Nav.Link>
-                  Shop
-                </Nav.Link>
+                <Nav.Link>Shop</Nav.Link>
               </LinkContainer>
 
               {userInfo ? (
                 <>
+                  <LinkContainer to="/cart">
+                    <Nav.Link>
+                      <FaShoppingCart />
+                      Cart
+                    </Nav.Link>
+                  </LinkContainer>
                   <LinkContainer to="/chatpage">
                     <Nav.Link>
                       <FaRocketchat />
-                      Chatpage
+                      ChatPage
                     </Nav.Link>
                   </LinkContainer>
-                  <NavDropdown title={userInfo.name} id="username">
+                  <NavDropdown
+                    title={
+                      <img
+                        src={userInfo.profilePicture}
+                        alt="Profile"
+                        style={{ width: "30px", height: "30px" }}
+                        className="rounded-circle"
+                      />
+                    }
+                    id="username"
+                    className="no-arrow-dropdown"
+                  >
                     <LinkContainer to="/profile">
                       <NavDropdown.Item>Profile</NavDropdown.Item>
                     </LinkContainer>
@@ -71,6 +80,7 @@ const Header = () => {
                       Logout
                     </NavDropdown.Item>
                   </NavDropdown>
+                  ;
                 </>
               ) : (
                 <LinkContainer to="/login">
@@ -90,6 +100,9 @@ const Header = () => {
                   </LinkContainer>
                   <LinkContainer to="/admin/userlist">
                     <NavDropdown.Item>Users</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="/admin/categorylist">
+                    <NavDropdown.Item>Categories</NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>
               )}

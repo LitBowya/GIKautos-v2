@@ -11,23 +11,33 @@ const loginUser = asyncHandler(async (req, res) => {
   if (user && (await user.matchPassword(password))) {
     generateToken(res, user._id);
 
-
     res.json({
       _id: user._id,
+      username: user.username,
       name: user.name,
       email: user.email,
+      profilePicture: user.profilePicture,
       isAdmin: user.isAdmin,
-      // token: token,
+      isMechanic: user.isMechanic,
+      mechanicDetails: user.mechanicDetails,
+      reviews: user.reviews,
     });
   } else {
     res.status(401);
     throw new Error("Invalid email or password");
   }
-
 });
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const {
+    name,
+    username,
+    email,
+    password,
+    profilePicture,
+    isMechanic,
+    mechanicDetails,
+  } = req.body;
 
   const userExists = await User.findOne({ email });
   if (userExists) {
@@ -35,26 +45,51 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("User already exists");
   }
 
-  const user = await User.create({
-    name,
-    email,
-    password,
-  });
+  let newUser;
+  if (isMechanic) {
+    // If registering as a mechanic, include mechanicDetails and reviews
+    newUser = await User.create({
+      name,
+      username,
+      email,
+      password,
+      isAdmin: false,
+      profilePicture,
+      isMechanic,
+      mechanicDetails,
+      reviews: [],
+    });
+  } else {
+    // Otherwise, create a regular user without mechanic details
+    newUser = await User.create({
+      name,
+      username,
+      email,
+      password,
+      profilePicture,
+      isAdmin: false,
+      isMechanic: false,
+    });
+  }
 
-  if (user) {
-    generateToken(res, user._id);
+  if (newUser) {
+    generateToken(res, newUser._id);
 
     res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
+      _id: newUser._id,
+      name: newUser.name,
+      username: newUser.username,
+      email: newUser.email,
+      profilePicture: newUser.profilePicture,
+      isAdmin: newUser.isAdmin,
+      isMechanic: newUser.isMechanic,
+      mechanicDetails: newUser.mechanicDetails,
+      reviews: newUser.reviews,
     });
   } else {
     res.status(400);
     throw new Error("Invalid user data");
   }
-
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
@@ -72,9 +107,14 @@ const getUserProfile = asyncHandler(async (req, res) => {
   if (user) {
     res.status(200).json({
       _id: user._id,
+      username: user.username,
       name: user.name,
       email: user.email,
+      profilePicture: user.profilePicture,
       isAdmin: user.isAdmin,
+      isMechanic: user.isMechanic,
+      mechanicDetails: user.mechanicDetails,
+      reviews: user.reviews
     });
   } else {
     res.status(404);
@@ -87,6 +127,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
   if (user) {
     user.name = req.body.name || user.name;
+    user.username = req.body.username || user.username;
     user.email = req.body.email || user.email;
     if (req.body.password) {
       user.password = req.body.password;
@@ -97,6 +138,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     res.status(200).json({
       _id: updatedUser._id,
       name: updatedUser.name,
+      username: user.username,
       email: updatedUser.email,
       isAdmin: updatedUser.isAdmin,
     });
@@ -143,6 +185,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
   if (user) {
     user.name = req.body.name || user.name;
+    user.username = req.body.username || user.username;
     user.email = req.body.email || user.email;
     user.isAdmin = Boolean(req.body.isAdmin);
 
@@ -151,6 +194,7 @@ const updateUser = asyncHandler(async (req, res) => {
     res.json({
       _id: updatedUser._id,
       name: updatedUser.name,
+      username: updatedUser.username,
       email: updatedUser.email,
       isAdmin: updatedUser.isAdmin,
     });

@@ -1,3 +1,5 @@
+
+import { Container } from "react-bootstrap";
 import TopProduct from "../components/Product/TopProduct";
 import LatestProducts from '../components/Product/LatestProducts'
 import MostPurchasedProducts from '../components/Product/MostPurchasedProducts'
@@ -5,7 +7,7 @@ import ProductByCategory from "../components/Product/ProductByCategory";
 
 const HomePage = () => {
   return (
-    <div>
+    <Container>
       <TopProduct />
       <LatestProducts />
       <MostPurchasedProducts />
@@ -13,7 +15,7 @@ const HomePage = () => {
       <ProductByCategory category="Batteries" />
       <ProductByCategory category="Belts" />
       <ProductByCategory category="Filters" />
-    </div>
+    </Container>
   );
 };
 

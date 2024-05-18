@@ -17,11 +17,53 @@ const getProducts = asyncHandler(async (req, res) => {
 });
 
 const getAllProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({});
-  if (products) {
-    res.status(200).json(products);
+  let query = {};
+
+  // Filter by category
+  if (req.query.category) {
+    query.category = { $regex: new RegExp(req.query.category, "i") };
   }
-})
+
+  // Apply brand filter if provided
+  if (req.query.brand) {
+    const brands = req.query.brand.split(",");
+    query.brand = { $in: brands };
+  }
+
+  // Filter by price range
+  if (req.query.minPrice || req.query.maxPrice) {
+    query.price = {};
+    if (req.query.minPrice) {
+      query.price.$gte = req.query.minPrice;
+    }
+    if (req.query.maxPrice) {
+      query.price.$lte = req.query.maxPrice;
+    }
+  }
+
+  // Sort criteria
+  let sortCriteria = {};
+  if (req.query.sort === "rating") {
+    sortCriteria = { rating: -1 };
+  } else if (req.query.sort === "lowestPrice") {
+    sortCriteria = { price: 1 };
+  } else if (req.query.sort === "highestPrice") {
+    sortCriteria = { price: -1 };
+  } else if (req.query.sort === "mostReviewed") {
+    sortCriteria = { numReviews: -1 };
+  } else if (req.query.sort === "newestIn") {
+    sortCriteria = { createdAt: -1 };
+  }
+
+  const products = await Product.find(query).sort(sortCriteria);
+
+  if (products.length > 0) {
+    res.status(200).json(products);
+  } else {
+    res.status(404);
+    throw new Error("Products not found");
+  }
+});
 
 const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
@@ -145,7 +187,8 @@ const getProductsByCategory = asyncHandler(async (req, res) => {
 
   // Apply brand filter if provided
   if (req.query.brand) {
-    query.brand = { $regex: new RegExp(req.query.brand, "i") };
+    const brands = req.query.brand.split(",");
+    query.brand = { $in: brands };
   }
 
   // Apply price filter if provided
@@ -160,13 +203,18 @@ const getProductsByCategory = asyncHandler(async (req, res) => {
   }
 
   // Apply sorting
-  let sortCriteria = { createdAt: -1 };
+  let sortCriteria = { createdAt: -1 }; // Default sorting by createdAt
+
   if (req.query.sort === "newestIn") {
     sortCriteria = { createdAt: -1 };
   } else if (req.query.sort === "mostReviewed") {
     sortCriteria = { numReviews: -1 };
   } else if (req.query.sort === "rating") {
     sortCriteria = { rating: -1 };
+  } else if (req.query.sort === "lowestPrice") {
+    sortCriteria = { price: 1 }; // Sort by lowest price
+  } else if (req.query.sort === "highestPrice") {
+    sortCriteria = { price: -1 }; // Sort by highest price
   }
 
   const products = await Product.find(query).sort(sortCriteria);
@@ -176,6 +224,27 @@ const getProductsByCategory = asyncHandler(async (req, res) => {
   } else {
     res.status(404);
     throw new Error("Products not found");
+  }
+});
+
+const getBrands = asyncHandler(async (req, res) => {
+  const { category } = req.params;
+  const brands = await Product.find({ category }).distinct("brand");
+  if (brands) {
+    res.status(200).json(brands);
+  } else {
+    res.status(404);
+    throw new Error("Brands not found for this category");
+  }
+});
+
+const getCategories = asyncHandler(async (req, res) => {
+  const categories = await Product.find().distinct("category");
+  if (categories) {
+    res.status(200).json(categories);
+  } else {
+    res.status(404);
+    throw new Error("Categories not found");
   }
 });
 
@@ -191,4 +260,6 @@ export {
   getMostPurchasedProducts,
   getProductsByCategory,
   getAllProducts,
+  getBrands,
+  getCategories,
 };

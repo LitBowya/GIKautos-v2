@@ -16,10 +16,10 @@ const SearchBox = () => {
   const [searchKeyword, setSearchKeyword] = useState(urlKeyword || "");
 
   const filteredProducts = searchKeyword
-    ? data?.products?.filter((product) =>
-        product.name.toLowerCase().includes(searchKeyword.toLowerCase())
+      ? data?.products?.filter((product) =>
+          product.name.toLowerCase().includes(searchKeyword.toLowerCase())
       )
-    : null;
+      : null;
 
 
   const submitHandler = (e) => {
@@ -33,36 +33,36 @@ const SearchBox = () => {
   };
 
   return (
-    <>
-      <Form onSubmit={submitHandler} className="d-flex">
-        <Form.Control
-          type="text"
-          name="q"
-          onChange={(e) => setSearchKeyword(e.target.value)}
-          value={searchKeyword}
-          placeholder="Search Products..."
-          className="mr-sm-2 ml-sm-5"
-        ></Form.Control>
-      </Form>
+      <>
+        <Form onSubmit={submitHandler} className="d-flex">
+          <Form.Control
+              type="text"
+              name="q"
+              onChange={(e) => setSearchKeyword(e.target.value)}
+              value={searchKeyword}
+              placeholder="Search Products..."
+              className="mr-sm-2 ml-sm-5"
+          ></Form.Control>
+        </Form>
 
-      {isLoading ? (
-        <Loader />
-      ) : isError ? (
-        <Message variant="danger">Failed to load products</Message>
-      ) : (
-        <>
-          {filteredProducts && (
-            <Row>
-              {filteredProducts.map((product) => (
-                <Col key={product._id} xs={6} lg={4} xl={2} className="mb-3">
-                  <Product product={product} />
-                </Col>
-              ))}
-            </Row>
-          )}
-        </>
-      )}
-    </>
+        {isLoading ? (
+            <Loader />
+        ) : isError ? (
+            <Message variant="danger">Failed to load products</Message>
+        ) : (
+            <>
+              {filteredProducts && (
+                  <Row>
+                    {filteredProducts.map((product) => (
+                        <Col key={product._id} xs={6} lg={4} xl={2} className="mb-3">
+                          <Product product={product} />
+                        </Col>
+                    ))}
+                  </Row>
+              )}
+            </>
+        )}
+      </>
   );
 };
 
