@@ -1,37 +1,30 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Form, Button, Row, Col, Alert } from "react-bootstrap";
+import { Form, Button, Row, Col } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import {
-  useGetChannelsQuery,
   useCreateChannelMutation,
   useDeleteChannelMutation,
   useUpdateChannelMutation,
+  useJoinChannelMutation,
 } from "../../slices/channelSlice.js";
-import Loader from "../Loader/Loader";
+// import Loader from "../Loader/Loader";
 import Message from "../Message/Message";
 
-export const ChannelList = () => {
+export const ChannelList = ({ channels, onSelectChannel, selectedChannelId }) => {
   const [newChannelName, setNewChannelName] = useState("");
   const [creationError, setCreationError] = useState(null);
-  const [selectedChannelId, setSelectedChannelId] = useState(null);
   const [editChannelId, setEditChannelId] = useState(null);
   const [editChannelName, setEditChannelName] = useState("");
 
   const { userInfo } = useSelector((state) => state.auth);
+  const userId = userInfo?._id;
   const isAdmin = userInfo?.isAdmin;
-
-  const {
-    data: channels,
-    isLoading: loadingChannels,
-    error: errorChannels,
-    refetch,
-  } = useGetChannelsQuery();
 
   const [
     createChannel,
-    { isLoading: loadingCreateChannel, error: errorCreatingChannel },
+    { isLoading: loadingCreateChannel, error: errorCreatingChannel, refetch },
   ] = useCreateChannelMutation();
 
   const [
@@ -44,6 +37,11 @@ export const ChannelList = () => {
     { isLoading: loadingUpdateChannel, error: errorUpdatingChannel },
   ] = useUpdateChannelMutation();
 
+  const [
+    joinChannel,
+    { isLoading: loadingJoinChannel, error: errorJoiningChannel },
+  ] = useJoinChannelMutation();
+
   const handleCreateChannel = async (e) => {
     e.preventDefault();
     if (window.confirm("Are you sure you want to create channel?")) {
@@ -51,7 +49,6 @@ export const ChannelList = () => {
         try {
           await createChannel({ name: newChannelName }).unwrap();
           toast.success("Channel created successfully");
-          refetch();
           setNewChannelName("");
           setCreationError(null);
         } catch (error) {
@@ -66,8 +63,6 @@ export const ChannelList = () => {
       try {
         await deleteChannel(channelId).unwrap();
         toast.success("Channel deleted successfully");
-        refetch();
-        setSelectedChannelId(null);
       } catch (error) {
         console.error("Failed to delete channel", error);
       }
@@ -87,14 +82,29 @@ export const ChannelList = () => {
           channelId: editChannelId,
           channelData: { name: editChannelName },
         }).unwrap();
+        refetch()
         toast.success("Channel updated successfully");
-        refetch();
         setEditChannelId(null);
         setEditChannelName("");
       } catch (error) {
         console.error("Failed to update channel", error);
       }
     }
+  };
+
+  const handleJoinChannel = async (channelId) => {
+    if (window.confirm("Are you sure you want to join this channel?")) {
+      try {
+        await joinChannel(channelId).unwrap();
+        toast.success("Joined channel successfully");
+      } catch (error) {
+        console.error("Failed to join channel", error);
+      }
+    }
+  };
+
+  const handleSelectChannel = (channelId) => {
+    onSelectChannel(channelId);
   };
 
   return (
@@ -123,26 +133,22 @@ export const ChannelList = () => {
                 {loadingCreateChannel ? "Creating..." : "Create Channel"}
               </Button>
               {errorCreatingChannel && (
-                <Alert variant="danger" className="mt-2">
+                <Message variant="danger" className="mt-2">
                   {errorCreatingChannel.message}
-                </Alert>
+                </Message>
               )}
             </Form>
           )}
           {creationError && (
-            <Alert variant="danger" className="mt-2">
+            <Message variant="danger" className="mt-2">
               {creationError}
-            </Alert>
+            </Message>
           )}
         </Col>
       </Row>
       <Row>
         <Col>
-          {loadingChannels ? (
-            <Loader />
-          ) : errorChannels ? (
-            <Message variant="danger">{errorChannels.message}</Message>
-          ) : channels && channels.length ? (
+          {channels && channels.length ? (
             <div>
               {channels.map((channel) => (
                 <div
@@ -176,7 +182,22 @@ export const ChannelList = () => {
                     </Form>
                   ) : (
                     <>
-                      <span>{channel.name}</span>
+                      <span
+                        onClick={() => handleSelectChannel(channel._id)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        {channel.name}
+                      </span>
+                      {!channel.members.includes(userId) && (
+                        <Button
+                          variant="success"
+                          className="me-2"
+                          onClick={() => handleJoinChannel(channel._id)}
+                          disabled={loadingJoinChannel}
+                        >
+                          {loadingJoinChannel ? "Joining..." : "Join"}
+                        </Button>
+                      )}
                       {isAdmin && (
                         <div>
                           <Button
@@ -214,14 +235,19 @@ export const ChannelList = () => {
         </Col>
       </Row>
       {errorDeletingChannel && (
-        <Alert variant="danger" className="mt-2">
+        <Message variant="danger" className="mt-2">
           {errorDeletingChannel.message}
-        </Alert>
+        </Message>
       )}
       {errorUpdatingChannel && (
-        <Alert variant="danger" className="mt-2">
+        <Message variant="danger" className="mt-2">
           {errorUpdatingChannel.message}
-        </Alert>
+        </Message>
+      )}
+      {errorJoiningChannel && (
+        <Message variant="danger" className="mt-2">
+          {errorJoiningChannel.message}
+        </Message>
       )}
     </div>
   );

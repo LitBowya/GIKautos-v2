@@ -1,4 +1,5 @@
 import Channel from "../models/channelModel.js";
+import User from "../models/userModel.js";
 import asyncHandler from "../middleware/asyncHandler.js";
 
 // Create a new channel
@@ -123,7 +124,7 @@ const deleteChannel = asyncHandler(async (req, res) => {
 
 // Archive a channel
 const archiveChannel = asyncHandler(async (req, res) => {
-  const channelId = req.params.channelId;
+  const {channelId} = req.body;
 
   // Check if the channel exists
   const channel = await Channel.findById(channelId);
@@ -167,7 +168,7 @@ const inviteToChannel = asyncHandler(async (req, res) => {
 
 // List members of a channel
 const listChannelMembers = asyncHandler(async (req, res) => {
-  const channelId = req.params.channelId;
+  const { channelId } = req.body;
 
   // Check if the channel exists
   const channel = await Channel.findById(channelId);

@@ -11,7 +11,7 @@ import {
   listChannelMembers,
   setChannelNotificationPreferences,
 } from "../controllers/channelController.js";
-import { protect, admin } from "../middleware/authMiddleware.js";
+import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -23,7 +23,7 @@ router.put("/:channelId", protect, updateChannel);
 router.delete("/:channelId", protect, deleteChannel);
 router.post("/:channelId/archive", protect, archiveChannel);
 router.post("/:channelId/invite", protect, inviteToChannel);
-router.get("/:channelId/members", protect, listChannelMembers);
+router.get("/members", protect, listChannelMembers);
 router.put(
   "/:channelId/notifications",
   protect,

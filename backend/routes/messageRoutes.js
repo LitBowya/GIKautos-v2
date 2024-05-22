@@ -16,7 +16,7 @@ import { protect } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.post("/createmessage", protect, createMessage);
-router.get("/getmessages/:channelId", protect, getMessagesByChannel);
+router.get("/getmessages", protect, getMessagesByChannel);
 router.put("/editmessage/:messageId", protect, editMessage);
 router.delete("/deletemessage/:messageId", protect, deleteMessage);
 router.post("/:messageId/pin", protect, pinMessage);

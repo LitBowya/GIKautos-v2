@@ -15,7 +15,7 @@ import bodyParser from "body-parser";
 import connectDB from "./config/db.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import socket from "./config/socket.js";
-import cors from 'cors';
+import cors from "cors";
 
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -33,9 +33,6 @@ app.use(cors());
 
 // Create HTTP server using existing Express app
 const server = http.createServer(app);
-
-// Initialize Socket.IO with the server
-socket(server);
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -68,3 +65,6 @@ app.use(errorHandler);
 server.listen(port, () => {
   console.log(`Server running on ${port}`);
 });
+
+// Initialize Socket.IO with the server
+socket(server);

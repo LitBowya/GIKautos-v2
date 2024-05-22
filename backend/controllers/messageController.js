@@ -36,13 +36,19 @@ const createMessage = asyncHandler(async (req, res) => {
 
   res.status(201).json({
     usernmame: user.username,
+    profilePicture: user.profilePicture,
     message,
   });
 });
 
 const getMessagesByChannel = asyncHandler(async (req, res) => {
-  const channelId = req.params.channelId;
+  const { channelId } = req.query;
   const userId = req.user._id;
+
+  if (!channelId) {
+    res.status(400).json({ error: "Missing channelId in request body" });
+    return;
+  }
 
   // Check if the user is a member of the specified channel
   const channel = await Channel.findOne({ _id: channelId, members: userId });
@@ -51,41 +57,50 @@ const getMessagesByChannel = asyncHandler(async (req, res) => {
     throw new Error("You are not a member of this channel");
   }
 
-  // Retrieve messages for the specified channel and populate the 'user' field to get the username
+  // Retrieve messages for the specified channel and populate the 'user' field to get the username and profile picture
   const messages = await Message.find({ channel: channelId })
     .populate({
       path: "user",
-      select: "username", // Select only the username field
+      select: ["username", "profilePicture"], // Select username and profilePicture fields
     })
     .populate({
       path: "replies",
-      populate: { path: "user", select: "username" }, // Populate user field in replies
+      populate: { path: "user", select: ["username", "profilePicture"] }, // Populate user field in replies
     })
     .populate({
       path: "reactions",
-      populate: { path: "user", select: "username" }, // Populate user field in reactions
+      populate: { path: "user", select: ["username", "profilePicture"] }, // Populate user field in reactions
     });
 
   // Format the response
   const formattedMessages = messages.map((message) => ({
     _id: message._id,
-    user: message.user._id,
-    username: message.user.username,
+    user: {
+      _id: message.user._id,
+      username: message.user.username,
+      profilePicture: message.user.profilePicture, // Include profilePicture field
+    },
     channel: message.channel,
     content: message.content,
     read: message.unread,
     replies: message.replies.map((reply) => ({
       _id: reply._id,
-      user: reply.user._id,
-      username: reply.user.username,
+      user: {
+        _id: reply.user._id,
+        username: reply.user.username,
+        profilePicture: reply.user.profilePicture, // Include profilePicture field
+      },
       content: reply.content,
       read: reply.unread,
       createdAt: reply.createdAt,
       updatedAt: reply.updatedAt,
     })),
     reactions: message.reactions.map((reaction) => ({
-      user: reaction.user._id,
-      username: reaction.user.username,
+      user: {
+        _id: reaction.user._id,
+        username: reaction.user.username,
+        profilePicture: reaction.user.profilePicture, // Include profilePicture field
+      },
       emoji: reaction.emoji,
     })),
     createdAt: message.createdAt,
@@ -171,7 +186,7 @@ const reactToMessage = asyncHandler(async (req, res) => {
 });
 
 const deleteMessage = asyncHandler(async (req, res) => {
-  const messageId = req.params.messageId;
+  const { messageId } = req.body;
 
   // Find the message to delete
   const message = await Message.findById(messageId);
@@ -185,10 +200,6 @@ const deleteMessage = asyncHandler(async (req, res) => {
       .status(403)
       .json({ error: "You are not authorized to delete this message" });
   }
-
-  // Optionally, mark the message as deleted instead of actually deleting it
-  // message.deleted = true;
-  // await message.save();
 
   // Alternatively, delete the message from the database
   await Message.findByIdAndDelete(messageId);
