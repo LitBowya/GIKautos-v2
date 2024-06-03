@@ -26,18 +26,6 @@ export const messageSlice = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
     }),
-    pinMessage: builder.mutation({
-      query: (messageId) => ({
-        url: `${MESSAGE_URL}/${messageId}/pin`,
-        method: "POST",
-      }),
-    }),
-    starMessage: builder.mutation({
-      query: (messageId) => ({
-        url: `${MESSAGE_URL}/${messageId}/star`,
-        method: "POST",
-      }),
-    }),
     searchMessages: builder.query({
       query: (searchQuery) => ({
         url: `${MESSAGE_URL}/search`,
@@ -45,12 +33,6 @@ export const messageSlice = apiSlice.injectEndpoints({
         params: {
           query: searchQuery,
         },
-      }),
-    }),
-    markMessageAsUnread: builder.mutation({
-      query: (messageId) => ({
-        url: `${MESSAGE_URL}/${messageId}/unread`,
-        method: "PUT",
       }),
     }),
     reactToMessage: builder.mutation({
@@ -75,10 +57,7 @@ export const {
     useGetMessagesByChannelQuery,
     useEditMessageMutation,
     useDeleteMessageMutation,
-    usePinMessageMutation,
-    useStarMessageMutation,
     useSearchMessagesQuery,
-    useMarkMessageAsUnreadMutation,
     useReactToMessageMutation,
     useReplyToMessageMutation,
 } = messageSlice;

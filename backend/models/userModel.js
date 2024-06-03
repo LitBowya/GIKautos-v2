@@ -78,54 +78,16 @@ const userSchema = new mongoose.Schema(
       default: "",
       required: true,
     },
-    isMechanic: {
-      type: Boolean,
-      default: false,
-      mechanicDetails: mechanicDetailsSchema,
-      reviews: reviewSchema,
-    },
-    channelsJoined: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Channel",
-      },
-    ],
-    directMessages: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-      { type: mongoose.Schema.Types.ObjectId, ref: "Message" },
-    ],
+    isMechanic: { type: Boolean, default: false },
+    mechanicDetails: { type: mechanicDetailsSchema, default: null },
+    reviews: { type: [reviewSchema], default: [] },
     notificationPreferences: {
-      email: {
-        type: Boolean,
-        default: true,
-      },
       mobilePush: {
         type: Boolean,
         default: true,
-      },
-      inApp: {
-        type: Boolean,
-        default: true,
-      },
-    },
-    onlineStatus: {
-      type: Boolean,
-      default: false,
+      }
     },
     bio: {
-      type: String,
-      default: "",
-    },
-    blockedUsers: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
-    statusMessage: {
       type: String,
       default: "",
     },

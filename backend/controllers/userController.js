@@ -1,5 +1,6 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../models/userModel.js";
+import Channel from '../models/channelModel.js';
 import generateToken from "../utils/generateToken.js";
 import dotenv from "dotenv";
 
@@ -8,6 +9,7 @@ dotenv.config();
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
+
   if (user && (await user.matchPassword(password))) {
     generateToken(res, user._id);
 
@@ -19,14 +21,15 @@ const loginUser = asyncHandler(async (req, res) => {
       profilePicture: user.profilePicture,
       isAdmin: user.isAdmin,
       isMechanic: user.isMechanic,
-      mechanicDetails: user.mechanicDetails,
-      reviews: user.reviews,
+      mechanicDetails: user.isMechanic ? user.mechanicDetails : null,
+      reviews: user.isMechanic ? user.reviews : null,
     });
   } else {
     res.status(401);
     throw new Error("Invalid email or password");
   }
 });
+
 
 const registerUser = asyncHandler(async (req, res) => {
   const {
@@ -42,38 +45,33 @@ const registerUser = asyncHandler(async (req, res) => {
   const userExists = await User.findOne({ email });
   if (userExists) {
     res.status(400);
-    throw new Error("User already exists");
+    throw new Error('User already exists');
   }
 
-  let newUser;
-  if (isMechanic) {
-    // If registering as a mechanic, include mechanicDetails and reviews
-    newUser = await User.create({
-      name,
-      username,
-      email,
-      password,
-      isAdmin: false,
-      profilePicture,
-      isMechanic,
-      mechanicDetails,
-      reviews: [],
-    });
-  } else {
-    // Otherwise, create a regular user without mechanic details
-    newUser = await User.create({
-      name,
-      username,
-      email,
-      password,
-      profilePicture,
-      isAdmin: false,
-      isMechanic: false,
-    });
-  }
+  const newUser = await User.create({
+    name,
+    username,
+    email,
+    password,
+    isAdmin: false,
+    profilePicture,
+    isMechanic,
+    mechanicDetails: isMechanic ? mechanicDetails : null,
+    reviews: isMechanic ? [] : null,
+  });
 
   if (newUser) {
+    // Generate token for the new user
     generateToken(res, newUser._id);
+
+    // Add the new user to the announcements channel
+    const announcementsChannel = await Channel.findOne({
+      name: 'announcements',
+    });
+    if (announcementsChannel) {
+      announcementsChannel.members.push(newUser._id);
+      await announcementsChannel.save();
+    }
 
     res.status(201).json({
       _id: newUser._id,
@@ -83,14 +81,15 @@ const registerUser = asyncHandler(async (req, res) => {
       profilePicture: newUser.profilePicture,
       isAdmin: newUser.isAdmin,
       isMechanic: newUser.isMechanic,
-      mechanicDetails: newUser.mechanicDetails,
-      reviews: newUser.reviews,
+      mechanicDetails: newUser.isMechanic ? newUser.mechanicDetails : null,
+      reviews: newUser.isMechanic ? newUser.reviews : null,
     });
   } else {
     res.status(400);
-    throw new Error("Invalid user data");
+    throw new Error('Invalid user data');
   }
 });
+
 
 const logoutUser = asyncHandler(async (req, res) => {
   res.cookie("jwt", "", {
@@ -113,14 +112,15 @@ const getUserProfile = asyncHandler(async (req, res) => {
       profilePicture: user.profilePicture,
       isAdmin: user.isAdmin,
       isMechanic: user.isMechanic,
-      mechanicDetails: user.mechanicDetails,
-      reviews: user.reviews
+      mechanicDetails: user.isMechanic ? user.mechanicDetails : null,
+      reviews: user.isMechanic ? user.reviews : null,
     });
   } else {
     res.status(404);
     throw new Error("User not found");
   }
 });
+
 
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);

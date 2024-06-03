@@ -1,4 +1,3 @@
-
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { FaShoppingCart, FaUser, FaSearch } from "react-icons/fa";
 import { FaRocketchat } from "react-icons/fa6";

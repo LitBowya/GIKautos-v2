@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import 'util';
-import 'os-browserify'
+import "util";
+import "os-browserify";
 import "path-browserify";
 import {
   createBrowserRouter,
@@ -16,7 +16,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import PrivateRoute from "./components/Private Route/PrivateRoute";
-import AdminRoute from './components/AdminRoute/AdminRoute.jsx'
+import AdminRoute from "./components/AdminRoute/AdminRoute.jsx";
 import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/ProductPage";
 import CartPage from "./pages/CartPage";
@@ -32,11 +32,11 @@ import ProductListPage from "./pages/Admin/ProductListPage.jsx";
 import ProductEditPage from "./pages/Admin/ProductEditPage.jsx";
 import UserListPage from "./pages/Admin/UserListPage.jsx";
 import UserEditPage from "./pages/Admin/UserEditPage.jsx";
-import ChatPage from "./pages/Chatpage.jsx"
+import ChatPage from "./pages/Chatpage.jsx";
 import ProductByCategoryPage from "./pages/ProductByCategoryPage.jsx";
 import ShopPage from "./pages/ShopPage.jsx";
 import SearchBox from "./components/Search/SearchBox.jsx";
-
+import MechanicHomepage from "./pages/Mechanic/MechanicHomepage.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -59,7 +59,8 @@ const router = createBrowserRouter(
         <Route path="/placeorder" element={<PlaceOrderPage />} />
         <Route path="/order/:id" element={<OrderPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/chatpage" element={<ChatPage />} />
+        <Route path="/chatpage" element={<ChatPage />} />
+        <Route path="/mechanic" element={<MechanicHomepage />} />
       </Route>
 
       <Route path="" element={<AdminRoute />}>
@@ -80,11 +81,9 @@ const router = createBrowserRouter(
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    
-      <Provider store={store}>
-        <RouterProvider router={router} />
-      </Provider>
-    
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
 

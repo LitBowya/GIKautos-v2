@@ -13,7 +13,7 @@ const Chatpage = () => {
   useEffect(() => {
     if (channels && channels.length) {
       const announcementChannel = channels.find(
-        (channel) => channel.name.toLowerCase() === "announcement"
+        (channel) => channel.name.toLowerCase() === "announcements"
       );
       if (announcementChannel) {
         setSelectedChannelId(announcementChannel._id);

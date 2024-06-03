@@ -11,6 +11,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 301) + 200,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Castrol EDGE Full Synthetic Motor Oil",
@@ -23,6 +24,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 301) + 200,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Valvoline High Mileage Motor Oil",
@@ -35,6 +37,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 301) + 200,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Pennzoil Platinum Full Synthetic Motor Oil",
@@ -47,6 +50,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 301) + 200,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Shell Rotella T6 Full Synthetic Diesel Engine Oil",
@@ -59,6 +63,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 301) + 200,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Royal Purple High Performance Synthetic Motor Oil",
@@ -71,6 +76,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 301) + 200,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Quaker State Advanced Durability Motor Oil",
@@ -83,6 +89,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 301) + 200,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Havoline High Mileage Synthetic Blend Motor Oil",
@@ -95,6 +102,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 301) + 200,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Lucas Oil High Performance Synthetic Motor Oil",
@@ -107,6 +115,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 301) + 200,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Motul 8100 X-cess Synthetic Engine Oil",
@@ -119,6 +128,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 301) + 200,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
 
   // Belts
@@ -133,6 +143,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Continental Elite Timing Belt Kit",
@@ -145,6 +156,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "ACDelco Professional Serpentine Belt",
@@ -157,6 +169,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Dayco Poly Rib Belt",
@@ -169,6 +182,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Bando Drive Belt",
@@ -181,6 +195,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Dayco Timing Belt",
@@ -193,6 +208,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Continental Accessory Drive Belt",
@@ -205,6 +221,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "ACDelco Professional Stretch Fit Belt",
@@ -217,6 +234,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Bando Timing Belt Kit",
@@ -229,6 +247,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Goodyear Gatorback Belt",
@@ -241,6 +260,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
 
   // Batteries
@@ -255,6 +275,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "DieHard Advanced Gold AGM Battery",
@@ -267,6 +288,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Bosch Premium Performance Battery",
@@ -279,6 +301,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "ACDelco Professional Automotive AGM Battery",
@@ -291,6 +314,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Exide Edge AGM Sealed Automotive Battery",
@@ -303,6 +327,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Duralast Gold Battery",
@@ -315,6 +340,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "DieHard Platinum AGM Battery",
@@ -327,6 +353,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "ACDelco Advantage Automotive Battery",
@@ -339,6 +366,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Duracell AGM Automotive Battery",
@@ -351,6 +379,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "EverStart Maxx Automotive Battery",
@@ -363,6 +392,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
 
   // Filters
@@ -377,6 +407,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Motorcraft Oil Filter",
@@ -389,6 +420,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "ACDelco Professional Engine Oil Filter",
@@ -401,6 +433,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "WIX Oil Filter",
@@ -413,6 +446,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "PurolatorONE Advanced Engine Protection Filter",
@@ -425,6 +459,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Bosch Premium Oil Filter",
@@ -437,6 +472,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Hastings Premium Oil Filter",
@@ -449,6 +485,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Fram Tough Guard Oil Filter",
@@ -461,6 +498,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "Mann-Filter Oil Filter",
@@ -473,6 +511,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
   {
     name: "ACDelco Advantage Engine Air Filter",
@@ -485,6 +524,7 @@ const products = [
     countInStock: Math.floor(Math.random() * 101) + 50,
     rating: 0,
     numReviews: 0,
+    reviews: []
   },
 ];
 

@@ -89,7 +89,6 @@ const RegisterPage = () => {
           isMechanic,
           mechanicDetails: isMechanic ? mechanicDetails : null,
         }).unwrap();
-        console.log(res);
         dispatch(setCredentials({ ...res }));
         navigate(redirect);
       } catch (err) {
@@ -265,7 +264,7 @@ const RegisterPage = () => {
               <Form.Control
                 type="text"
                 placeholder="Working Hours"
-                value={mechanicDetails.specialty}
+                value={mechanicDetails.workingHours}
                 onChange={(e) =>
                   setMechanicDetails({
                     ...mechanicDetails,

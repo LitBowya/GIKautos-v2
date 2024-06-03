@@ -49,7 +49,6 @@ const CartPage = () => {
     try {
       await updateCartItem({ productId, quantity });
       refetch();
-      toast.success("Cart item quantity updated");
     } catch (error) {
       toast.error(error?.data?.message || error.message);
     }

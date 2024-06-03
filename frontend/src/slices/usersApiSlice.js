@@ -30,6 +30,12 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    getMechanics: builder.query({
+      query: () => ({
+        url: `${USERS_URL}/mechanic`,
+      }),
+      keepUnusedDataFor: 5,
+    }),
     getUsers: builder.query({
       query: () => ({
         url: USERS_URL,
@@ -72,6 +78,7 @@ export const {
   useLogoutMutation,
   useRegisterMutation,
   useProfileMutation,
+  useGetMechanicsQuery,
   useGetUsersQuery,
   useDeleteUserMutation,
   useUpdateUserMutation,

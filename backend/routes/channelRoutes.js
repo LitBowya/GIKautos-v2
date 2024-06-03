@@ -6,10 +6,7 @@ import {
   leaveChannel,
   updateChannel,
   deleteChannel,
-  archiveChannel,
-  inviteToChannel,
   listChannelMembers,
-  setChannelNotificationPreferences,
 } from "../controllers/channelController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -21,13 +18,6 @@ router.post("/:channelId/join", protect, joinChannel);
 router.post("/:channelId/leave", protect, leaveChannel);
 router.put("/:channelId", protect, updateChannel);
 router.delete("/:channelId", protect, deleteChannel);
-router.post("/:channelId/archive", protect, archiveChannel);
-router.post("/:channelId/invite", protect, inviteToChannel);
-router.get("/members", protect, listChannelMembers);
-router.put(
-  "/:channelId/notifications",
-  protect,
-  setChannelNotificationPreferences
-);
+router.get("/:channelId/members", protect, listChannelMembers);
 
 export default router;
