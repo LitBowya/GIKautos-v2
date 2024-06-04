@@ -92,48 +92,42 @@ const Messages = ({ channelId }) => {
   }, [messages]);
 
   const handleEditMessage = async (messageId) => {
-    if (window.confirm('Edit message?')) {
-      try {
-        await editMessage({
-          messageId,
-          messageData: { content: editContent },
-        }).unwrap();
-        toast.success('Edited successfully');
-        setMessageToEdit(null);
-        setEditContent('');
-        refetch();
-      } catch (error) {
-        console.error('Failed to edit message', error);
-      }
+    try {
+      await editMessage({
+        messageId,
+        messageData: { content: editContent },
+      }).unwrap();
+      toast.success('Edited successfully');
+      setMessageToEdit(null);
+      setEditContent('');
+      refetch();
+    } catch (error) {
+      console.error('Failed to edit message', error);
     }
   };
 
   const handleDeleteMessage = async (messageId) => {
-    if (window.confirm('Are you sure you want to delete?')) {
-      try {
-        await deleteMessage(messageId).unwrap();
-        toast.success('Deleted successfully');
-        refetch();
-      } catch (error) {
-        console.error('Failed to delete message', error);
-      }
+    try {
+      await deleteMessage(messageId).unwrap();
+      toast.success('Deleted successfully');
+      refetch();
+    } catch (error) {
+      console.error('Failed to delete message', error);
     }
   };
 
   const handleReplyMessage = async (messageId) => {
-    if (window.confirm('Reply to message?')) {
-      try {
-        await replyToMessage({
-          messageId,
-          replyData: { content: replyContent },
-        }).unwrap();
-        toast.success('Replied successfully');
-        setMessageToReply(null);
-        setReplyContent('');
-        refetch();
-      } catch (error) {
-        console.error('Failed to reply to message', error);
-      }
+    try {
+      await replyToMessage({
+        messageId,
+        replyData: { content: replyContent },
+      }).unwrap();
+      toast.success('Replied successfully');
+      setMessageToReply(null);
+      setReplyContent('');
+      refetch();
+    } catch (error) {
+      console.error('Failed to reply to message', error);
     }
   };
 
