@@ -7,6 +7,7 @@ import {
   updateChannel,
   deleteChannel,
   listChannelMembers,
+  searchMembers
 } from "../controllers/channelController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -19,5 +20,6 @@ router.post("/:channelId/leave", protect, leaveChannel);
 router.put("/:channelId", protect, updateChannel);
 router.delete("/:channelId", protect, deleteChannel);
 router.get("/:channelId/members", protect, listChannelMembers);
+router.get('/members/search', protect, searchMembers);
 
 export default router;

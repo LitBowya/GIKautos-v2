@@ -141,7 +141,8 @@ const getDirectMessages = asyncHandler(async (req, res) => {
 });
 
 const replyToMessage = asyncHandler(async (req, res) => {
-  const { messageId, content } = req.body;
+  const { messageId} = req.params
+  const { content } = req.body;
 
   // Find the message to reply to
   const message = await Message.findById(messageId);
@@ -164,7 +165,8 @@ const replyToMessage = asyncHandler(async (req, res) => {
 });
 
 const reactToMessage = asyncHandler(async (req, res) => {
-  const { messageId, emoji } = req.body;
+  const { messageId } = req.params
+  const { emoji } = req.body;
 
   // Find the message to react to
   const message = await Message.findById(messageId);
@@ -186,7 +188,7 @@ const reactToMessage = asyncHandler(async (req, res) => {
 });
 
 const deleteMessage = asyncHandler(async (req, res) => {
-  const { messageId } = req.body;
+  const { messageId } = req.params;
 
   // Find the message to delete
   const message = await Message.findById(messageId);
@@ -208,7 +210,8 @@ const deleteMessage = asyncHandler(async (req, res) => {
 });
 
 const editMessage = asyncHandler(async (req, res) => {
-  const { messageId, content } = req.body;
+  const { messageId } = req.params;
+  const { content } = req.body;
 
   // Find the message to edit
   const message = await Message.findById(messageId);
@@ -242,6 +245,7 @@ const searchMessages = asyncHandler(async (req, res) => {
 
   res.status(200).json(messages);
 });
+
 
 export {
   createMessage,

@@ -139,6 +139,36 @@ const listChannelMembers = asyncHandler(async (req, res) => {
   res.status(200).json({ members });
 });
 
+
+const searchMembers = asyncHandler(async (req, res) => {
+  const { channelId, keyword } = req.query;
+
+  if (!channelId || !keyword) {
+    res
+      .status(400)
+      .json({ error: 'Missing channelId or keyword in request query' });
+    return;
+  }
+
+  // Check if the user is a member of the specified channel
+  const channel = await Channel.findOne({
+    _id: channelId,
+    members: req.user._id,
+  });
+  if (!channel) {
+    res.status(404).json({ error: 'You are not a member of this channel' });
+    return;
+  }
+
+  // Search for members in the specified channel based on the keyword
+  const members = await User.find({
+    _id: { $in: channel.members },
+    username: { $regex: keyword, $options: 'i' }, // Case-insensitive search
+  });
+
+  res.status(200).json(members);
+});
+
 export {
   createChannel,
   getChannels,
@@ -146,5 +176,6 @@ export {
   leaveChannel,
   updateChannel,
   deleteChannel,
+  searchMembers,
   listChannelMembers,
 };
