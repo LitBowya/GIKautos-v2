@@ -1,15 +1,10 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const messageSchema = new mongoose.Schema(
+const replySchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    channel: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Channel",
+      ref: 'User',
       required: true,
     },
     content: {
@@ -20,7 +15,7 @@ const messageSchema = new mongoose.Schema(
       {
         user: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
+          ref: 'User',
         },
         content: {
           type: String,
@@ -32,26 +27,55 @@ const messageSchema = new mongoose.Schema(
         },
       },
     ],
-    reactions: [
-      {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-        },
-        emoji: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
-    unread: {
-      type: Boolean,
-      default: false
+    createdAt: {
+      type: Date,
+      default: Date.now,
     },
   },
   { timestamps: true }
 );
 
-const Message = mongoose.model("Message", messageSchema);
+const reactionSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    emoji: {
+      type: String,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
+
+const messageSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    channel: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Channel',
+      required: true,
+    },
+    content: {
+      type: String,
+      required: true,
+    },
+    replies: [replySchema],
+    reactions: [reactionSchema],
+    unread: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  { timestamps: true }
+);
+
+const Message = mongoose.model('Message', messageSchema);
 
 export default Message;
